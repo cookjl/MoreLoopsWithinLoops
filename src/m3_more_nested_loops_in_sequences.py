@@ -80,25 +80,25 @@ def largest_number(seq_seq):
     # Done: 3. Implement and test this function.
     #   Note that you should write its TEST function first (above).
     # ------------------------------------------------------------------
-    max_seq = 0
+    seq = []
     max_index = 0
-    max_number = 0
 
     for i in range(len(seq_seq)):
-
         for j in range(len(seq_seq[i])):
-            if seq_seq[i][j] > max_number:
-                max_seq = i
-                max_index = j
-                max_number = seq_seq[i][j]
-    if max_number == 0:
+            seq.append(seq_seq[i][j])
+    for k in range(len(seq)):
+        if seq[k] >= seq[max_index]:
+            max_index = k
+
+    if len(seq) == 0:
         return None
-    return max_number
+
+    return seq[max_index]
 
 def run_test_largest_negative_number():
     """ Tests the    largest_negative_number    function. """
     # ------------------------------------------------------------------
-    # TODO: 4. Implement this TEST function.
+    # Done: 4. Implement this TEST function.
     #   It TESTS the  largest_negative_number  function defined below.
     #
     #   Include enough tests to give you confidence that your solution
@@ -108,6 +108,18 @@ def run_test_largest_negative_number():
     print('-------------------------------------------------')
     print('Testing the   LARGEST_NEGATIVE_NUMBER   function:')
     print('-------------------------------------------------')
+
+    # Test 1:
+    expected = -5
+    answer = largest_negative_number(([-10,18,345,11],[0,-6000,-500],[],[0,
+                                                                         -5,
+                                                                         -10]))
+    print("Expected and actual are:",expected,answer)
+
+    # Test 2:
+    expected = -955
+    answer = largest_negative_number(([-1000,0,15,45],[0,55,1025],[0,0,-955]))
+    print("Expected and actual are:",expected,answer)
 
 
 def largest_negative_number(seq_seq):
@@ -133,13 +145,20 @@ def largest_negative_number(seq_seq):
     where each subsequence contains only numbers.
     """
     # ------------------------------------------------------------------
-    # TODO: 5. Implement and test this function.
+    # Done: 5. Implement and test this function.
     #   Note that you should write its TEST function first (above).
     #
     # CHALLENGE: Try to solve this problem with no additional sequences
     #   being constructed (so the SPACE allowed is limited to the
     #   give sequence of sequences plus any non-list variables you want).
     # ------------------------------------------------------------------
+    negatives = []
+    for i in range(len(seq_seq)):
+        for j in range(len(seq_seq[i])):
+            if seq_seq[i][j] < 0:
+                negatives += [[seq_seq[i][j]]]
+    return largest_number(negatives)
+
 
 
 def run_test_first_is_elsewhere_too():
@@ -388,7 +407,12 @@ def first_is_elsewhere_too(seq_seq):
     #   in this problem, as doing so would defeat the goal of providing
     #   practice at loops within loops (within loops within ...)
     # ------------------------------------------------------------------
-
+    for i in range(len(seq_seq[0])):
+        for j in range(1,len(seq_seq)):
+            for k in range(len(seq_seq[j])):
+                if seq_seq[0][i] == seq_seq[j][k]:
+                    return True
+    return False
 
 # ----------------------------------------------------------------------
 # Calls  main  to start the ball rolling.
